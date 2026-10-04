@@ -34,7 +34,7 @@ const Navbar = () => {
             placeholder="Search"
             className="flex-1 px-4 py-2 outline-none"
           />
-          <button className="bg-green-600 text-white px-5 py-2 flex items-center gap-2 hover:bg-green-700 transition">
+          <button className="bg-green-600 text-white px-5 py-2 flex items-center gap-2 cursor-pointer hover:bg-green-700 transition">
             <Search className="w-4 h-4" />
             Search
           </button>
