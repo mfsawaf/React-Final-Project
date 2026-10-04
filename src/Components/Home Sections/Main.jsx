@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import Button from "../Common/Button";
 
 const Main = () => {
   return (
@@ -13,9 +14,9 @@ const Main = () => {
           Free shipping on all your order. we deliver, you enjoy
         </p>
         <Link to="/shop">
-          <button className="bg-[#20B526] text-white text-[16px] px-4 py-2 rounded-[50px] mt-4 cursor-pointer hover:bg-[#1a8f1b] transition duration-300">
-            Shop Now
-          </button>
+        <div className="mt-6">
+          <Button />
+        </div>
         </Link>
       </div>
       <div>

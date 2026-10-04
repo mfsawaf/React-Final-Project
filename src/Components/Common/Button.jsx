@@ -1,23 +1,9 @@
-const Button = ({
-  children,
-  onClick,
-  type = "button",
-  variant = "primary",
-  className = "",
-}) => {
-  const baseStyles = "px-4 py-2 rounded-lg font-medium transition";
-  const variants = {
-    primary: "bg-green-600 text-white hover:bg-green-700",
-    secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
-  };
+import React from "react";
 
+const Button = () => {
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={`${baseStyles} ${variants[variant]} ${className}`}
-    >
-      {children}
+    <button className=" bg-[#20B526] text-white px-5 py-2 rounded-full font-medium shadow mt-2 cursor-pointer hover:bg-[#1a8f1b] transition duration-300">
+      Shop Now →
     </button>
   );
 };
