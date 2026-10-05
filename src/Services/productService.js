@@ -1,5 +1,10 @@
 import api from "./api";
 
+export const getAllProducts = async () => {
+  const response = await api.get("/products?populate=*");
+  return response.data.data;
+};
+
 export const getFeaturedProducts = async () => {
   const response = await api.get(
     "/products?filters[isFeatured][$eq]=true&populate=*",
@@ -31,6 +36,13 @@ export const getTopRated = async () => {
 export const getNewestProducts = async () => {
   const response = await api.get(
     "/products?sort=createdAt:desc&pagination[limit]=5&populate=*",
+  );
+  return response.data.data;
+};
+
+export const getProductsByCategory = async (categorySlug) => {
+  const response = await api.get(
+    `/products?filters[category][slug][$eq]=${categorySlug}&populate=*`,
   );
   return response.data.data;
 };

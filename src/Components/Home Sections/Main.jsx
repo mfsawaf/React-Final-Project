@@ -13,11 +13,9 @@ const Main = () => {
         <p className="text-[14px] text-[#808080]">
           Free shipping on all your order. we deliver, you enjoy
         </p>
-        <Link to="/shop">
         <div className="mt-6">
           <Button />
         </div>
-        </Link>
       </div>
       <div>
         <img src="/MainVegetables.png" alt="Vegetables" />

@@ -31,3 +31,5 @@ const NewestProducts = () => {
 };
 
 export default NewestProducts;
+
+
