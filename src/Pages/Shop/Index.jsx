@@ -5,27 +5,40 @@ import {
 } from "../../Services/productService";
 import ProductCard from "../../Components/Product/ProductCard";
 import Container from "../../Components/Common/Container";
-import Button from "../../Components/Common/Button";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [sortOrder, setSortOrder] = useState("default");
 
   useEffect(() => {
-    if (activeCategory === "all") {
-      getAllProducts().then(setProducts);
-    } else {
-      getProductsByCategory(activeCategory).then(setProducts);
-    }
-  }, [activeCategory]);
+    const fetchProducts = async () => {
+      let data;
+      if (activeCategory === "all") {
+        data = await getAllProducts();
+      } else {
+        data = await getProductsByCategory(activeCategory);
+      }
+
+      if (sortOrder === "lowToHigh") {
+        data = [...data].sort((a, b) => a.price - b.price);
+      } else if (sortOrder === "highToLow") {
+        data = [...data].sort((a, b) => b.price - a.price);
+      }
+
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, [activeCategory, sortOrder]);
 
   return (
     <Container>
       <div className="py-10">
         {/* Banner */}
-        <div className="bg-black rounded-xl mb-8 relative overflow-hidden text-white h-50 flex items-center px-8">
+        <div className="bg-black rounded-xl mb-8 relative overflow-hidden text-white h-[200px] flex items-center px-8">
           <img
-            src="/sale of the month.jpg"
+            src="/SaleOfTheMonth.jpg"
             alt="Vegetables"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -37,42 +50,54 @@ const Shop = () => {
           </div>
 
           <div className="absolute top-6 right-8 bg-orange-500 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold z-10">
-            50% off
+            50%
           </div>
         </div>
 
-        {/* Filter Bar */}
-        <div className="flex gap-3 mb-8 cursor-pointer">
-          <button
-            onClick={() => setActiveCategory("all")}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-              activeCategory === "all"
-                ? "bg-green-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+        {/* Filter + Sort Bar */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex gap-3">
+            <button
+              onClick={() => setActiveCategory("all")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${
+                activeCategory === "all"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setActiveCategory("vegetables")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${
+                activeCategory === "vegetables"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              Vegetables
+            </button>
+            <button
+              onClick={() => setActiveCategory("fruits")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${
+                activeCategory === "fruits"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              Fruits
+            </button>
+          </div>
+
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="border border-gray-300 rounded-lg px-4 py-2 text-sm cursor-pointer"
           >
-            All
-          </button>
-          <button
-            onClick={() => setActiveCategory("vegetables")}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${
-              activeCategory === "vegetables"
-                ? "bg-green-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            Vegetables
-          </button>
-          <button
-            onClick={() => setActiveCategory("fruits")}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer ${
-              activeCategory === "fruits"
-                ? "bg-green-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            Fruits
-          </button>
+            <option value="default">Sort by</option>
+            <option value="lowToHigh">Price: Low to High</option>
+            <option value="highToLow">Price: High to Low</option>
+          </select>
         </div>
 
         {/* Products Grid */}

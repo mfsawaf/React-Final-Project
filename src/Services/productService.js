@@ -46,3 +46,87 @@ export const getProductsByCategory = async (categorySlug) => {
   );
   return response.data.data;
 };
+
+export const getProductById = async (id) => {
+  const response = await api.get(`/products/${id}?populate=*`);
+  return response.data.data;
+};
+
+export const updateProductStock = (documentId, newStock) => {
+  return api.put(`/products/${documentId}`, {
+    data: { stock: newStock },
+  });
+};
+
+export const registerUser = (username, email, password) => {
+  return api.post("/auth/local/register", { username, email, password });
+};
+
+export const loginUser = (identifier, password) => {
+  return api.post("/auth/local", { identifier, password });
+};
+
+export const getCurrentUser = (jwt) => {
+  return api.get("/users/me", {
+    headers: { Authorization: `Bearer ${jwt}` },
+  });
+};
+
+export const createOrder = (orderData, token) => {
+  return api.post(
+    "/orders",
+    { data: orderData },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
+export const getUserOrders = (token) => {
+  return api.get("/orders", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const changePassword = (passwordData, token) => {
+  return api.post(
+    "/auth/change-password",
+    {
+      currentPassword: passwordData.currentPassword,
+      password: passwordData.newPassword,
+      passwordConfirmation: passwordData.confirmPassword,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
+export const updateUserProfile = (userId, userData, token) => {
+  return api.put(`/users/${userId}`, userData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const uploadProfileImage = async (file, userId, token) => {
+  const formData = new FormData();
+  formData.append("files", file);
+  formData.append("ref", "plugin::users-permissions.user");
+  formData.append("refId", userId);
+  formData.append("field", "avatar"); // أو اسم حقل الصورة عندك في Strapi زي 'image' أو 'profileImage'
+
+  return api.post("/upload", formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

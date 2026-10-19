@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { getNewestProducts } from "../../Services/productService";
-import ProductCard from "../product/ProductCard";
+import ProductCard from "../Product/ProductCard"
 
 const NewestProducts = () => {
   const [products, setProducts] = useState([]);
